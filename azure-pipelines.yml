@@ -67,7 +67,7 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
-- stage: 'Dev - CK0401'
+- stage: 'Dev-CK0401'
   displayName: 'CK0401-Deploy to the dev environment'
   dependsOn: Build
   condition: |

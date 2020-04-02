@@ -105,7 +105,7 @@ stages:
 
 
 - stage: 'TestCK'
-  displayName: 'CK0410-Deploy to the test environment'
+  displayName: 'CK0410-Deploy to test environment'
   dependsOn: DevCK
 #  condition: |
 

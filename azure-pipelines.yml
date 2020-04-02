@@ -107,7 +107,7 @@ stages:
 - stage: 'TestCK'
   displayName: 'CK0411-Deploy to test environment'
   dependsOn: DevCK
-  #condition: eq(variables['Build.Reason'], 'Schedule')
+  condition: eq(variables['Build.Reason'], 'Schedule')
   jobs:
   - deployment: Deploy
     pool:

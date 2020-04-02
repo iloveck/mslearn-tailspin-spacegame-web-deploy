@@ -5,6 +5,13 @@ variables:
   buildConfiguration: 'Release'
   releaseBranchName: 'release'
 
+schedules:
+- cron: '0 3 * * *'
+  displayName: Deploy every day at 3 A.M.
+  branches:
+    include:
+    - release
+  always: false   
 
 stages:
 - stage: 'Build'
@@ -95,3 +102,31 @@ stages:
               azureSubscription: 'ARM-Tailspin-Sapce-Game-0401-Mutiplstage'
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+
+
+- stage: 'TestCK'
+  displayName: 'CK0410-Deploy to the test environment'
+  dependsOn: DevCK
+#  condition: |
+
+  jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: 'ubuntu-16.04'
+    environment: test
+    variables:
+    - group: Release-0401
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: website'
+            inputs:
+              azureSubscription: 'ARM-Tailspin-Sapce-Game-0401-Mutiplstage'
+              appName: '$(WebAppNameTest)'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+
+              

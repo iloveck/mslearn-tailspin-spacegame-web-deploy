@@ -75,9 +75,9 @@ stages:
       artifact: drop
 
 - stage: 'DevCK'
-  displayName: 'CK0401-Deploy to the dev environment'
+  displayName: 'CK0401-Deploy to dev environment'
   dependsOn: Build
-  condition: |
+  condition: eq(variables['Build.Reason'], 'Schedule')
     and
     (
       succeeded(),
@@ -105,7 +105,7 @@ stages:
 
 
 - stage: 'TestCK'
-  displayName: 'CK0410-Deploy to test environment'
+  displayName: 'CK0411-Deploy to test environment'
   dependsOn: DevCK
 #  condition: |
 
